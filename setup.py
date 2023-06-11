@@ -17,7 +17,7 @@ setup(
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
-    # url="https://github.com/dellius-alexander/FastAPI-GraphQL-MongoDB-Demo.git",
+    url="https://github.com/dellius-alexander/Hardy-Weinberg.git",
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
     license="MIT",
     classifiers=[
