@@ -1,0 +1,9 @@
+sympy
+numpy
+matplotlib
+pandas
+pytest
+setuptools
+build
+twine
+wheel

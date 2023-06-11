@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  # Define app service, running fastapi webapp, with uvicorn server
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi-app
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - ./hardyweinbergcalculator:/app
+    command: uvicorn app.main:app --host
