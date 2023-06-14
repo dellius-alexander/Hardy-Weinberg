@@ -47,21 +47,11 @@ jobs:
           # Code formatting with black, check every python file in the src directory 
           black hardyweinbergcalculator
           black --check hardyweinbergcalculator
-          
 
       # Task for running tests
-      - name: Execute tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and test
         run: |
-          pytest
-
-      # Task for running tests
-      - name: Execute build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python setup.py sdist bdist_wheel 2>&1
+          /bin/bash build_and_upload.sh 2>&1
 
       # Task for uploading test results
       - name: Upload build artifact
@@ -78,7 +68,7 @@ jobs:
             LICENSE
 
       # Deploy to PyPI
-      - name: Deploy to PyPI
+      - name: Upload to PyPI
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
