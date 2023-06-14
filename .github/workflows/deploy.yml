@@ -40,8 +40,8 @@ jobs:
       - name: Lint with black
         run: |
           # Code formatting with black, check every python file in the src directory 
-          black --include "hardyweinbergcalculator"
-          black --check "hardyweinbergcalculator"
+          black hardyweinbergcalculator
+          black --check hardyweinbergcalculator
           
 
       # Task for running tests
@@ -68,9 +68,7 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: |
-          twine upload --skip-existing  --username=$TWINE_USERNAME \
-          --password=$TWINE_PASSWORD --repository-url=$TWINE_REPOSITORY_URL \
-          dist/*
+          python3 -m twine upload --skip-existing  --username=$TWINE_USERNAME --password=$TWINE_PASSWORD --repository-url=$TWINE_REPOSITORY_URL dist/*
 
       # Task for uploading test results
       - name: Upload build artifact
