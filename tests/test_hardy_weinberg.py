@@ -8,17 +8,10 @@ from hardyweinbergcalculator.__main__ import main, app
 log = get_logger(__name__)
 
 
-def test_using_generated_samples_on_shell_cmd():
+def test_using_generated_samples():
     population = generate_population(10)
     log.info(f"\nPopulation: {len(population)}")
-    json_population = json.dumps(population, default=lambda o: o.__dict__(), sort_keys=False)
-    # sys.argv = [sys.argv[0], "--genes", json_population]
-    res = subprocess.check_call(
-        args=['python3',  '-m', 'hardyweinbergcalculator.__main__', '--verbose', '--genes', json_population],
-        shell=True,
-        stdout=None,
-        stderr=None,
-        universal_newlines=True,)
+    res = HardyWeinberg(genes=population)
     log.info(f"Result: {res}")
 
 

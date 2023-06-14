@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
-from hardyweinbergcalculator import __VERSION__
-VERSION = __VERSION__
+
 DESCRIPTION = 'Hardy-Weinberg Equilibrium Calculator. Calculates the expected genotype frequencies based on the ' \
               'allele frequencies of a population in Hardy-Weinberg equilibrium.'
 
@@ -9,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="hardyweinbergcalculator",
-    version=VERSION,
+    version = "0.2.7",
     author="Dellius Alexander",
     author_email="info@hyfisolutions.com",
     maintainer="info@hyfisolutions.com",
