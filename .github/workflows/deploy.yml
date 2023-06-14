@@ -31,6 +31,7 @@ jobs:
       # Task for installing dependencies
       - name: Install dependencies
         run: |
+          ls -liaR
           python -m pip install --upgrade pip
           python -m pip install black pytest pytest-asyncio wheel setuptools build twine
 
