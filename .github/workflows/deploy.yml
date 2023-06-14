@@ -41,8 +41,9 @@ jobs:
       - name: Lint with black
         run: |
           # Code formatting with black, check every python file in the src directory 
-          black Hardy-Weinberg/hardyweinbertcalculator
-          black --check Hardy-Weinberg/hardyweinbertcalculator
+          black --include "Hardy-Weinberg/hardyweinbertcalculator"
+          black --check "Hardy-Weinberg/hardyweinbertcalculator"
+          
 
       # Task for running tests
       - name: Execute tests
