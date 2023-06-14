@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="0.3.0"
+VERSION="0.3.1"
 rm -rf dist/** && \
 sed -e "s/version = \"[[:digit:]]\.[[:digit:]]\.[[:digit:]]\"/version = \"${VERSION}\"/g" setup.py | tee setup.temp.py && \
 sed -e "s/version = \"[[:digit:]]\.[[:digit:]]\.[[:digit:]]\"/version = \"${VERSION}\"/g" setup.cfg | tee setup.temp.cfg && \
