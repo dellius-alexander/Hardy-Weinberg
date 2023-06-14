@@ -53,7 +53,6 @@ jobs:
 
       # Task for running tests
       - name: Execute build
-        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -61,7 +60,6 @@ jobs:
 
       # Deploy to PyPI
       - name: Deploy to PyPI
-        if: always()
         env:
           TWINE_REPOSITORY_URL: ${{ secrets.TWINE_REPOSITORY_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -72,7 +70,6 @@ jobs:
 
       # Task for uploading test results
       - name: Upload build artifact
-        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: actions/upload-artifact@v2
