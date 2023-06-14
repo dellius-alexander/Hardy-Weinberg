@@ -9,7 +9,7 @@ log = get_logger(__name__)
 
 # --------------------------------------------------------------------------- #
 # Define symbols for Hardy-Weinberg equations
-_p, _q, _p2, _2pq, _q2 = symbols('p, q, p**2, 2*pq, q**2')
+_p, _q, _p2, _2pq, _q2 = symbols("p, q, p**2, 2*pq, q**2")
 
 
 # --------------------------------------------------------------------------- #
@@ -36,30 +36,47 @@ class HardyWeinbergStats:
     genes: List[Gene] = None
     data_structure: np.array = None
 
-    def __init__(self, p: float = None, q: float = None,
-                 homozygous_dominant_population: float = None,
-                 homozygous_recessive_population: float = None,
-                 heterozygous_population: float = None,
-                 total_population: float = None,
-                 genes: List[Gene] = None, *args, **kwargs):
+    def __init__(
+        self,
+        p: float = None,
+        q: float = None,
+        homozygous_dominant_population: float = None,
+        homozygous_recessive_population: float = None,
+        heterozygous_population: float = None,
+        total_population: float = None,
+        genes: List[Gene] = None,
+        *args,
+        **kwargs,
+    ):
         try:
             self.p = None
             self.q = None
-            if homozygous_dominant_population is not None \
-                    and homozygous_recessive_population is not None \
-                    and heterozygous_population is not None:
+            if (
+                homozygous_dominant_population is not None
+                and homozygous_recessive_population is not None
+                and heterozygous_population is not None
+            ):
                 self.homozygous_dominant_population = homozygous_dominant_population
                 self.homozygous_recessive_population = homozygous_recessive_population
                 self.heterozygous_population = heterozygous_population
                 self.total_population = round(
-                    sum([self.homozygous_dominant_population,
-                         self.homozygous_recessive_population,
-                         self.heterozygous_population]),
-                    1)
-                self.p = (2 * self.homozygous_dominant_population + self.heterozygous_population) / \
-                         (2 * self.total_population)
-                self.q = (2 * self.homozygous_recessive_population + self.heterozygous_population) / \
-                         (2 * self.total_population)
+                    sum(
+                        [
+                            self.homozygous_dominant_population,
+                            self.homozygous_recessive_population,
+                            self.heterozygous_population,
+                        ]
+                    ),
+                    1,
+                )
+                self.p = (
+                    2 * self.homozygous_dominant_population
+                    + self.heterozygous_population
+                ) / (2 * self.total_population)
+                self.q = (
+                    2 * self.homozygous_recessive_population
+                    + self.heterozygous_population
+                ) / (2 * self.total_population)
                 self._calculate_expected_values()
                 self.chi_square_test = self._run_chi_square_tests()
                 self.genes = genes
@@ -73,24 +90,32 @@ class HardyWeinbergStats:
             elif genes is not None and isinstance(genes, list) and len(genes) > 0:
                 self.genes = genes
                 # get the population count from genes
-                self.homozygous_dominant_population, \
-                    self.homozygous_recessive_population, \
-                    self.heterozygous_population = HardyWeinbergStats.get_population_count_from_genes(self.genes)
+                (
+                    self.homozygous_dominant_population,
+                    self.homozygous_recessive_population,
+                    self.heterozygous_population,
+                ) = HardyWeinbergStats.get_population_count_from_genes(self.genes)
                 # set the total population
                 self.total_population = round(len(genes), 1)
 
-                self.p = (2 * self.homozygous_dominant_population + self.heterozygous_population) / \
-                         (2 * self.total_population)
+                self.p = (
+                    2 * self.homozygous_dominant_population
+                    + self.heterozygous_population
+                ) / (2 * self.total_population)
 
-                self.q = (2 * self.homozygous_recessive_population + self.heterozygous_population) / \
-                         (2 * self.total_population)
+                self.q = (
+                    2 * self.homozygous_recessive_population
+                    + self.heterozygous_population
+                ) / (2 * self.total_population)
                 self._calculate_expected_values()
                 self.chi_square_test = self._run_chi_square_tests()
             else:
-                raise ValueError("\n\nInvalid parameters passed to HardyWeinbergStats constructor. Please \n"
-                                 "pass either p and total_population or homozygous_dominant_population, \n"
-                                 "homozygous_recessive_population, heterozygous_population, and total_population.\n"
-                                 "Please see documentation for more details.")
+                raise ValueError(
+                    "\n\nInvalid parameters passed to HardyWeinbergStats constructor. Please \n"
+                    "pass either p and total_population or homozygous_dominant_population, \n"
+                    "homozygous_recessive_population, heterozygous_population, and total_population.\n"
+                    "Please see documentation for more details."
+                )
             self.genes = genes if genes is not None else []
         except Exception as e:
             log.error(f"Error: {e}")
@@ -118,21 +143,27 @@ class HardyWeinbergStats:
                     elif zygous[0] == "heterozygous":
                         heterozygous_population += 1
 
-        return homozygous_dominant_population, homozygous_recessive_population, heterozygous_population
+        return (
+            homozygous_dominant_population,
+            homozygous_recessive_population,
+            heterozygous_population,
+        )
 
     def _calculate_expected_values(self):
         """
         Calculates the expected values for the Hardy-Weinberg equation
         :return: expected values
         """
-        self.p_expected = (self.p ** 2) * self.total_population
-        self.q_expected = (self.q ** 2) * self.total_population
+        self.p_expected = (self.p**2) * self.total_population
+        self.q_expected = (self.q**2) * self.total_population
         self.two_pq_expected = (2 * self.p * self.q) * self.total_population
         self.p_plus_q = self.p + self.q
-        self.p_squared = self.p ** 2
-        self.q_squared = self.q ** 2
+        self.p_squared = self.p**2
+        self.q_squared = self.q**2
         self.two_pq = 2 * self.p * self.q
-        self.p_squared_plus_two_pq_plus_q_squared = self.p_squared + self.two_pq + self.q_squared
+        self.p_squared_plus_two_pq_plus_q_squared = (
+            self.p_squared + self.two_pq + self.q_squared
+        )
 
     def _run_chi_square_tests(self, *args, **kwargs):
         """
@@ -142,7 +173,13 @@ class HardyWeinbergStats:
         try:
             mtx = np.array(
                 object=[
-                    [[self.homozygous_dominant_population, self.homozygous_recessive_population, self.heterozygous_population]],
+                    [
+                        [
+                            self.homozygous_dominant_population,
+                            self.homozygous_recessive_population,
+                            self.heterozygous_population,
+                        ]
+                    ],
                     [[self.p_expected, self.q_expected, self.two_pq_expected]],
                     [[self.p_squared, self.q_squared, self.two_pq]],
                 ],
@@ -154,21 +191,29 @@ class HardyWeinbergStats:
             while i < len(mtx):
                 # select the observed, expected, and frequency values based
                 # on the shape of the matrix (3, 1, 3) or data structure
-                observed, expected, frequencies = mtx[0:1][0][0][i], mtx[1:2][0][0][i], mtx[2:3][0][0][i]
-                log.info(f"\nObserved: {observed} \nExpected: {expected} \nFrequency: {frequencies}")
-                chi_square_test += (((observed - expected) ** 2) / expected)
+                observed, expected, frequencies = (
+                    mtx[0:1][0][0][i],
+                    mtx[1:2][0][0][i],
+                    mtx[2:3][0][0][i],
+                )
+                log.info(
+                    f"\nObserved: {observed} \nExpected: {expected} \nFrequency: {frequencies}"
+                )
+                chi_square_test += ((observed - expected) ** 2) / expected
                 i += 1
-            log.info(f"\nMatrix shape: {mtx.shape}"
-                     f"\nChi-Square Test Results: {chi_square_test}"
-                     f"\nSize of matrix: {mtx.size}")
+            log.info(
+                f"\nMatrix shape: {mtx.shape}"
+                f"\nChi-Square Test Results: {chi_square_test}"
+                f"\nSize of matrix: {mtx.size}"
+            )
             return chi_square_test
         except Exception as e:
             log.error(f"Error: {e}")
 
     def __dict__(self):
         return {
-            f"p": self.p,
-            f"q": self.q,
+            f"{_p}": self.p,
+            f"{_q}": self.q,
             "expected_homozygous_dominant_population": self.p_expected,
             "expected_homozygous_recessive_population": self.q_expected,
             "expected_heterozygous_population": self.two_pq_expected,
@@ -182,7 +227,9 @@ class HardyWeinbergStats:
             "homozygous_recessive_population": self.homozygous_recessive_population,
             "heterozygous_population": self.heterozygous_population,
             "total_population": self.total_population,
-            "@genes": [a.__dict__() for a in self.genes] if isinstance(self.genes, list) else []
+            "@genes": [a.__dict__() for a in self.genes]
+            if isinstance(self.genes, list)
+            else [],
         }
 
     def to_json(self):
@@ -196,4 +243,3 @@ class HardyWeinbergStats:
 
     def __iter__(self):
         return iter(self.__dict__())
-

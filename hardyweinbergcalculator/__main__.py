@@ -3,22 +3,26 @@ import sys
 import traceback
 from _ctypes import Array
 from typing import Union, List
-from . import Gene, HardyWeinberg, generate_population, parse_args, get_logger, parse_genes_from_cli
+from . import Gene, HardyWeinberg, generate_population, parse_args, get_logger
 
 log = get_logger(__name__)
 
 
 # --------------------------------------------------------------------------- #
 def app(
-        total_population: float = None,
-        homozygous_dominant_population: float = None,
-        homozygous_recessive_population: float = None,
-        heterozygous_population: float = None,
-        genes: Union[List[Gene], Array[Gene]] = None,
-        **kwargs
+    total_population: float = None,
+    homozygous_dominant_population: float = None,
+    homozygous_recessive_population: float = None,
+    heterozygous_population: float = None,
+    genes: Union[List[Gene], Array[Gene]] = None,
+    **kwargs,
 ):
     try:  # check for None inputs
-        if total_population is None and genes is None and heterozygous_population is None:
+        if (
+            total_population is None
+            and genes is None
+            and heterozygous_population is None
+        ):
             raise ValueError("Genes or population data must be provided.")
         return HardyWeinberg(
             total_population=total_population,
@@ -26,7 +30,7 @@ def app(
             homozygous_recessive_population=homozygous_recessive_population,
             heterozygous_population=heterozygous_population,
             genes=genes,
-            **kwargs
+            **kwargs,
         )
     except Exception as e:
         log.error(e)

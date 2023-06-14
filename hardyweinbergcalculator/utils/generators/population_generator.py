@@ -23,7 +23,9 @@ def population_generator(n: int = 1):
     """Generate n number of zygotes."""
     sample = []
     for _ in range(0, n):
-        sample.append(Gene(Allele(random_chars().send(None)), Allele(random_chars().send(None))))
+        sample.append(
+            Gene(Allele(random_chars().send(None)), Allele(random_chars().send(None)))
+        )
     yield sample
 
 
@@ -45,10 +47,12 @@ async def async_chunked_population_generator(samples: int = 1):
     # then we create a container to hold the samples
     samples_container = []
     # print the info
-    log.info(f"\nSamples: {samples}"
-             f"\nLeast Common Multiple: {lcm}"
-             f"\nChunk Size: {chunk_size}"
-             f"\nSamples per Chunk: {samples_per_chunk}")
+    log.info(
+        f"\nSamples: {samples}"
+        f"\nLeast Common Multiple: {lcm}"
+        f"\nChunk Size: {chunk_size}"
+        f"\nSamples per Chunk: {samples_per_chunk}"
+    )
 
     # lastly we iterate over the chunk size and append the chunked samples to the container
     while len(samples_container) < samples:
@@ -57,8 +61,10 @@ async def async_chunked_population_generator(samples: int = 1):
         res = await asyncio.gather(*tasks)
         samples_container.extend(res[0])
     end = perf_counter()
-    log.info(f"\nTime Elapsed: {end - start:0.4f} seconds"
-              f"\nNext Chunk Size: {len(samples_container)}")
+    log.info(
+        f"\nTime Elapsed: {end - start:0.4f} seconds"
+        f"\nNext Chunk Size: {len(samples_container)}"
+    )
     return samples_container
 
 

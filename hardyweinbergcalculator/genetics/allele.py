@@ -12,12 +12,12 @@ class Allele:
 
     :param symbols: List - the unicode or ascii symbols for the allele. e.g. 'A' or 'a'
     """
+
     _symbols: List
     _traits: List
     _matrix: np.array
 
     def __init__(self, symbols: List = random_chars().__next__()):
-
         self._symbols = symbols
         self._traits = []
         for symbol in self._symbols:
@@ -56,9 +56,12 @@ class Allele:
         return self.__dict__()
 
     def to_json(self):
-        return json.dumps(self.__dict__(), default=lambda o: o.__dict__(), indent=4, sort_keys=True)
+        return json.dumps(
+            self.__dict__(), default=lambda o: o.__dict__(), indent=4, sort_keys=True
+        )
 
     def __str__(self):
         return self.__dict__()
+
 
 # --------------------------------------------------------------------------- #

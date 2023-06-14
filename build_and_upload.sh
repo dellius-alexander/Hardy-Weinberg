@@ -8,18 +8,19 @@ mv setup.temp.py setup.py && \
 mv setup.temp.cfg setup.cfg && \
 mv pyproject.temp.toml pyproject.toml
 
-python setup.py sdist bdist_wheel && \
-if python3 -m pip install dist/*.whl 2>&1 ; then
-    echo "Successfully installed the package"
-else
-    echo "Failed to install the package"
-fi
-
-if python3 -m pytest tests/ 2>&1 ; then
-    echo "Successfully ran the tests"
+if python3 -m pytest tests/ 2>&1 && python setup.py sdist bdist_wheel 2>&1 ; then
+    echo "Build and test ran Successfully."
 else
     echo "Failed to run the tests"
     exit 1
 fi
+
 python3 -m twine upload dist/* --verbose --skip-existing
 
+if python3 -m pip install hardyweinbergcalculator 2>&1 ; then
+    echo "Successfully installed the package"
+    python3 -m hwc --help
+    python3 -m hwc --version
+else
+    echo "Failed to install the package"
+fi

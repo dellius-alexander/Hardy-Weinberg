@@ -1,9 +1,11 @@
 import logging
 
 # _________________________________________________________________ #
-logging.basicConfig(level=logging.DEBUG,
-                    format='[%(asctime)s | %(levelname)s | %(lineno)d] %(message)s',
-                    datefmt='%H:%M:%S')
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="[%(asctime)s | %(levelname)s | %(lineno)d] %(message)s",
+    datefmt="%H:%M:%S",
+)
 
 
 # _________________________________________________________________ #
@@ -12,5 +14,5 @@ def get_logger(name: str, level=logging.INFO):
     logger.setLevel(level)
     return logger
 
-# _________________________________________________________________ #
 
+# _________________________________________________________________ #

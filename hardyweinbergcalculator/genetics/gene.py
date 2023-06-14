@@ -18,6 +18,7 @@ class Gene:
     - father: Allele - second allele
     - description: str - description of the gene
     """
+
     mother: Allele = None  # first allele
     father: Allele = None  # second allele
     description: str = None
@@ -28,7 +29,9 @@ class Gene:
         self.mother = mother
         self.father = father
         self.description = description
-        self.matrix = np.array(list(product(self.mother.symbols, self.father.symbols)), dtype=object)
+        self.matrix = np.array(
+            list(product(self.mother.symbols, self.father.symbols)), dtype=object
+        )
         self.metadata = dict()
         self.metadata = self._get_metadata()
 
@@ -86,9 +89,9 @@ class Gene:
         return self.__str__()
 
     def to_json(self):
-        return json.dumps(self.__dict__(), default=lambda o: o.__dict__, indent=4, sort_keys=True)
+        return json.dumps(
+            self.__dict__(), default=lambda o: o.__dict__, indent=4, sort_keys=True
+        )
 
     def __str__(self):
         return str(self.__dict__())
-
-

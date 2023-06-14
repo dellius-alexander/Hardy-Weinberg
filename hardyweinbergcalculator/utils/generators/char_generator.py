@@ -7,4 +7,5 @@ def random_chars(n: int = 1):
     characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     yield random.choices(population=characters, k=n)
 
+
 # --------------------------------------------------------------------------- #
