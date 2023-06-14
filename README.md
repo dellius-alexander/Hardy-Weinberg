@@ -38,3 +38,67 @@ optional arguments:
 
 Example: python3 -m hwc --ppop 10 --qpop 10 --pq2pop 200 --verbose
 ```
+
+### Generate random data
+
+```bash 
+python3 -m hwc --samples 1000 --verbose
+```
+
+### Calculate from known data
+
+```bash
+python3 -m hwc --ppop 10 --qpop 10 --pq2pop 200 --verbose
+```
+
+## In your code
+
+### Test for Hard-Weinberg Equilibrium from generated data
+
+```python
+from hwc import generate_population, HardyWeinberg
+
+# Generate random data
+population = generate_population(n=1000)
+res = HardyWeinberg(genes=population)
+print(res)
+```
+
+### Test for Hardy-Weinberg Equilibrium from known data
+
+```python
+from hwc import HardyWeinberg
+
+# Known data
+res = HardyWeinberg(
+            homozygous_dominant_population=20,
+            homozygous_recessive_population=44,
+            heterozygous_population=95
+            )
+print(res)
+```
+
+### Results Data Object
+
+The results returned from the Hardyweinberg test will ultimately look like this, in json format:
+
+```json
+{
+    "2*pq": 0.375,
+    "@genes": [],
+    "chi_square_test": 1.1111111111111112,
+    "expected_heterozygous_population": 3.75,
+    "expected_homozygous_dominant_population": 5.625,
+    "expected_homozygous_recessive_population": 0.625,
+    "heterozygous_population": 5,
+    "homozygous_dominant_population": 5,
+    "homozygous_recessive_population": 0,
+    "p": 0.75,
+    "p + q": 1.0,
+    "p**2": 0.5625,
+    "p**2 + 2*pq + q**2": 1.0,
+    "q": 0.25,
+    "q**2": 0.0625,
+    "total_population": 10
+}
+```

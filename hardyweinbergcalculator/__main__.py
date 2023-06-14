@@ -1,7 +1,6 @@
 import logging
 import sys
 import traceback
-from _ctypes import Array
 from typing import Union, List
 from . import Gene, HardyWeinberg, generate_population, parse_args, get_logger
 
