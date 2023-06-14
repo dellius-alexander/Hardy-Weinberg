@@ -1,3 +1,5 @@
+[![Testing FastAPI, GraphQL, MongoDB, using Docker Compose](https://github.com/dellius-alexander/Hardy-Weinberg/actions/workflows/deploy.yml/badge.svg)](https://github.com/dellius-alexander/Hardy-Weinberg/actions/workflows/deploy.yml)
+
 # Hardy Weinberg Equilibrium
 
 

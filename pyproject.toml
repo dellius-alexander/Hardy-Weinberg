@@ -41,9 +41,9 @@ build-backend = "setuptools.build_meta"
 #hwc = "hardyweinbergcalculator.__main__:main"
 
 
-[project.urls]
-"Homepage" = "https://github.com/dellius-alexander/Hardy-Weinberg.git"
-"Bug_Tracker" = "https://github.com/dellius-alexander/Hardy-Weinberg/issues"
+#[project.urls]
+#"Homepage" = "https://github.com/dellius-alexander/Hardy-Weinberg.git"
+#"Bug_Tracker" = "https://github.com/dellius-alexander/Hardy-Weinberg/issues"
 
 [requires]
 files=["requirements.txt"]
