@@ -66,7 +66,9 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: |
-          python3 -m twine upload --skip-existing  --username=$TWINE_USERNAME --password=$TWINE_PASSWORD --repository-url=$TWINE_REPOSITORY_URL dist/*
+          echo "username = $TWINE_USERNAME" > ~/.pypirc
+          echo "password = $TWINE_PASSWORD" >> ~/.pypirc
+          python3 -m twine upload --skip-existing dist/*
 
       # Task for uploading test results
       - name: Upload build artifact
