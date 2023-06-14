@@ -14,7 +14,7 @@ def app(
     homozygous_dominant_population: float = None,
     homozygous_recessive_population: float = None,
     heterozygous_population: float = None,
-    genes: Union[List[Gene], Array[Gene]] = None,
+    genes: Union[List[Gene]] = None,
     **kwargs,
 ):
     try:  # check for None inputs
