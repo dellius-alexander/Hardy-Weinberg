@@ -23,7 +23,7 @@ def population_generator(n: int = 1):
     """Generate n number of zygotes."""
     sample = []
     for _ in range(0, n):
-        sample.append(Gene(Allele(random_chars().__next__()), Allele(random_chars().__next__())))
+        sample.append(Gene(Allele(random_chars().send(None)), Allele(random_chars().send(None))))
     yield sample
 
 

@@ -1,5 +1,5 @@
 import json
-from ..genetics.gene import Gene
+from ..genetics import Gene
 from ..config import get_logger
 from sympy import symbols
 import numpy as np
@@ -43,6 +43,8 @@ class HardyWeinbergStats:
                  total_population: float = None,
                  genes: List[Gene] = None, *args, **kwargs):
         try:
+            self.p = None
+            self.q = None
             if homozygous_dominant_population is not None \
                     and homozygous_recessive_population is not None \
                     and heterozygous_population is not None:
@@ -61,7 +63,7 @@ class HardyWeinbergStats:
                 self._calculate_expected_values()
                 self.chi_square_test = self._run_chi_square_tests()
                 self.genes = genes
-            elif p is not None or q is not None and total_population is not None:
+            elif total_population is not None and p is not None or q is not None:
                 self.total_population = round(total_population, 1)
                 self.p = p if p is not None else 1.0 - q  # p = 1 - q
                 self.q = q if q is not None else 1.0 - p  # q = 1 - p
@@ -73,7 +75,7 @@ class HardyWeinbergStats:
                 # get the population count from genes
                 self.homozygous_dominant_population, \
                     self.homozygous_recessive_population, \
-                    self.heterozygous_population = self._get_population_count_from_genes(self.genes)
+                    self.heterozygous_population = HardyWeinbergStats.get_population_count_from_genes(self.genes)
                 # set the total population
                 self.total_population = round(len(genes), 1)
 
@@ -85,15 +87,16 @@ class HardyWeinbergStats:
                 self._calculate_expected_values()
                 self.chi_square_test = self._run_chi_square_tests()
             else:
-                raise ValueError("Invalid parameters passed to HardyWeinbergStats constructor.\n"
-                                 "Please pass either p and total_population or homozygous_dominant_population, \n"
+                raise ValueError("\n\nInvalid parameters passed to HardyWeinbergStats constructor. Please \n"
+                                 "pass either p and total_population or homozygous_dominant_population, \n"
                                  "homozygous_recessive_population, heterozygous_population, and total_population.\n"
                                  "Please see documentation for more details.")
             self.genes = genes if genes is not None else []
         except Exception as e:
             log.error(f"Error: {e}")
 
-    def _get_population_count_from_genes(self, genes: List[Gene] = None, *args, **kwargs):
+    @staticmethod
+    def get_population_count_from_genes(genes: List[Gene], *args, **kwargs):
         """
         Get the population count from a list of genes
         :param genes:
@@ -101,20 +104,20 @@ class HardyWeinbergStats:
         :param kwargs:
         :return:
         """
-
-        if genes is None:
-            genes = self.genes
         homozygous_dominant_population = 0
         homozygous_recessive_population = 0
         heterozygous_population = 0
-        for g in genes:
-            if g.metadata["zygous"] == "homozgous":
-                if g.metadata["homocount"] == 1 and g.metadata["dominant_trait"] is True:
-                    homozygous_dominant_population += 1
-                elif g.metadata["homocount"] == 1 and g.metadata["dominant_trait"] is False:
-                    homozygous_recessive_population += 1
-            elif g.metadata["zygous"] == "heterozygous":
-                heterozygous_population += 1
+        if genes is not None and isinstance(genes, list) and len(genes) > 0:
+            for g in genes:
+                for zygous, trait in zip(g.metadata["zygous"], g.metadata["traits"]):
+                    if zygous[0] == "homozgous":
+                        if trait[0] == "dominant":
+                            homozygous_dominant_population += 1
+                        elif trait[0] == "recessive":
+                            homozygous_recessive_population += 1
+                    elif zygous[0] == "heterozygous":
+                        heterozygous_population += 1
+
         return homozygous_dominant_population, homozygous_recessive_population, heterozygous_population
 
     def _calculate_expected_values(self):
@@ -155,17 +158,17 @@ class HardyWeinbergStats:
                 log.info(f"\nObserved: {observed} \nExpected: {expected} \nFrequency: {frequencies}")
                 chi_square_test += (((observed - expected) ** 2) / expected)
                 i += 1
-            log.info(f"Matrix shape: {mtx.shape}")
-            log.info(f"Chi-Square Test Results: {chi_square_test}")
-            log.info(f"Size of matrix: {mtx.size}")
+            log.info(f"\nMatrix shape: {mtx.shape}"
+                     f"\nChi-Square Test Results: {chi_square_test}"
+                     f"\nSize of matrix: {mtx.size}")
             return chi_square_test
         except Exception as e:
             log.error(f"Error: {e}")
 
     def __dict__(self):
         return {
-            f"{_p}": self.p,
-            f"{_q}": self.q,
+            f"p": self.p,
+            f"q": self.q,
             "expected_homozygous_dominant_population": self.p_expected,
             "expected_homozygous_recessive_population": self.q_expected,
             "expected_heterozygous_population": self.two_pq_expected,
@@ -183,7 +186,7 @@ class HardyWeinbergStats:
         }
 
     def to_json(self):
-        return json.dumps(self.__dict__(),  indent=4, sort_keys=True)
+        return json.dumps(self.__dict__(), indent=4, sort_keys=True)
 
     def __str__(self):
         return self.to_json()

@@ -1,8 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
 from time import perf_counter
-
-import numpy as np
-
 from hardyweinbergcalculator.config import get_logger
 from hardyweinbergcalculator.utils.generators.population_generator import population_generator
 

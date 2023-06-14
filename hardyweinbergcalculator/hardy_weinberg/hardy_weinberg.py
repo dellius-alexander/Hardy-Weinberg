@@ -1,9 +1,9 @@
 import json
 import traceback
 from typing import List
-from ..genetics.gene import Gene
-from ..hardy_weinberg.hardy_weinberg_stats import HardyWeinbergStats
+from ..genetics import Gene
 from ..config import get_logger
+from .hardy_weinberg_stats import HardyWeinbergStats
 
 log = get_logger(__name__)
 
@@ -12,12 +12,14 @@ log = get_logger(__name__)
 class HardyWeinberg:
     stats: HardyWeinbergStats = None
 
-    def __init__(self, p: float = None, q: float = None,
+    def __init__(self,
                  homozygous_dominant_population: float = None,
                  homozygous_recessive_population: float = None,
                  heterozygous_population: float = None,
                  total_population: float = None,
-                 genes: List[Gene] = None, *args, **kwargs):
+                 genes: List[Gene] = None,
+                 p: float = None, q: float = None,
+                 *args, **kwargs):
         # log.info(f"Args: {args}")
         # log.info(f"Kwargs: {kwargs}")
         try:

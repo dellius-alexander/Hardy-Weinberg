@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hardyweinbergcalculator"
-version = "0.2.2"
+version = "0.2.4"
 description = 'Hardy-Weinberg Equilibrium Calculator. Calculates the expected genotype frequencies based on the allele frequencies of a population in Hardy-Weinberg equilibrium.'
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.7"
@@ -38,7 +38,7 @@ dependencies = [
 ]
 
 [project.scripts]
-hwc = "hardyweinbergcalculator.__main__:app"
+hwc = "hardyweinbergcalculator.__main__:main"
 
 
 [project.urls]

@@ -36,7 +36,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "hwc = hardyweinbergcalculator.__main__:app"
+            "hwc = hardyweinbergcalculator.__main__:main"
         ]
     },
     python_requires=">=2.7",

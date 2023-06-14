@@ -1,65 +1,80 @@
 import json
-
-from .allele import Allele
+from itertools import product
+import numpy as np
+from ..genetics import Allele
 
 
 # --------------------------------------------------------------------------- #
 class Gene:
     """
-    A Gene contains pairs of alleles, an early example of a trait encoded by
+    A Gene contains pairs of alleles, an early example of a traits encoded by
     a single gene with multiple alleles, in this case two alleles, a diploid.
 
     A Diploid is the result of the fusion of two gametes (sperm and egg)
     that contain one allele each.  A diploid contains two alleles, one from
     each parent.
 
-    - mother: Allele
-    - father: Allele
+    - mother: Allele - first allele
+    - father: Allele - second allele
+    - description: str - description of the gene
     """
     mother: Allele = None  # first allele
     father: Allele = None  # second allele
+    description: str = None
+    matrix: np.array = None
     metadata: dict = dict()
-    description: str = "TESTING 1, 2, 3..."
 
-    def __init__(self, mother: Allele(), father: Allele(), description: str = "TESTING 1, 2, 3..."):
+    def __init__(self, mother: Allele, father: Allele, description: str = None):
         self.mother = mother
         self.father = father
         self.description = description
+        self.matrix = np.array(list(product(self.mother.symbols, self.father.symbols)), dtype=object)
         self.metadata = dict()
-        self.metadata["traits"] = []
-        if str(self.mother.trait) == "dominant" == str(self.father.trait):
-            self.metadata["dominant_trait"] = True
-            self.metadata["zygous"] = "homozgous"
-            self.metadata["homocount"] = 1
-            self.metadata["traits"].extend(
-                [{self.mother.symbol: self.mother.trait},
-                 {self.father.symbol: self.father.trait}]
-            )
-        elif str(self.mother.trait) == "recessive" == str(self.father.trait):
-            self.metadata["dominant_trait"] = False
-            self.metadata["zygous"] = "homozgous"
-            self.metadata["homocount"] = 1
-            self.metadata["traits"].extend(
-                [{self.mother.symbol: self.mother.trait},
-                 {self.father.symbol: self.father.trait}]
-            )
-        else:
-            self.metadata["dominant_trait"] = True
-            self.metadata["zygous"] = "heterozygous"
-            self.metadata["hetercount"] = 1
-            self.metadata["traits"].extend(
-                [{self.mother.symbol: self.mother.trait},
-                 {self.father.symbol: self.father.trait}]
-            )
+        self.metadata = self._get_metadata()
+
+    def _get_metadata(self):
+        # get metadata about the gene's alleles
+        metadata = dict()
+        metadata["dominant_traits"] = 0
+        metadata["recessive_traits"] = 0
+        metadata["zygous"] = []
+        metadata["homocount"] = 0
+        metadata["hetercount"] = 0
+        metadata["homozygous"] = []
+        metadata["heterozygous"] = []
+        metadata["traits"] = []
+        cnt = len(self.matrix)
+        for allele in self.matrix.tolist():
+            if str(allele[0]).isupper() and str(allele[1]).isupper():
+                metadata["dominant_traits"] += 1
+                metadata["zygous"].append(["homozgous", allele])
+                metadata["homocount"] += 1
+                metadata["homozygous"].append(allele)
+                metadata["traits"].append(["dominant", allele])
+            elif str(allele[0]).islower() and str(allele[1]).islower():
+                metadata["recessive_traits"] += 1
+                metadata["zygous"].append(["homozgous", allele])
+                metadata["homocount"] += 1
+                metadata["homozygous"].append(allele)
+                metadata["traits"].append(["recessive", allele])
+            else:
+                metadata["dominant_traits"] += 1
+                metadata["zygous"].append(["heterozygous", allele])
+                metadata["hetercount"] += 1
+                metadata["heterozygous"].append(allele)
+                metadata["traits"].append(["dominant", allele])
+
+        return metadata
 
     def __dict__(self):
         # print out all class attributes in a dictionary
         return {
-            "gene": f"{self.mother.symbol}:{self.father.symbol}",
             "mother": self.mother.__dict__(),
             "father": self.father.__dict__(),
+            "description": self.description,
+            "gene_mapping": self.matrix.tolist(),
             "metadata": self.metadata,
-            "description": self.description}
+        }
 
     def __iter__(self):
         yield self
