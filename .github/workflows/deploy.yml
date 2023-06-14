@@ -50,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pytest 
+          pytest Hardy-Weinberg/tests
 
       # Task for running tests
       - name: Execute build
@@ -58,7 +58,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python setup.py sdist bdist_wheel 2>&1
+          python Hardy-Weinberg/setup.py sdist bdist_wheel 2>&1
 
       # Deploy to PyPI
       - name: Deploy to PyPI
@@ -69,7 +69,7 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: |
-          python3 -m twine upload --skip-existing dist/*
+          python3 -m twine upload --skip-existing  --username $TWINE_USERNAME --password $TWINE_PASSWORD --repository-url $TWINE_REPOSITORY_URL Hardy-Weinberg/dist/*
 
       # Task for uploading test results
       - name: Upload build artifact
@@ -80,9 +80,8 @@ jobs:
         with:
           name: Build-Results
           path: |
-            dist
-            Hardy-Weinberg.egg-info
-            tests/logs
-            src/logs
-            README.md
-            LICENSE
+            Hardy-Weinberg/dist
+            Hardy-Weinberg/Hardy-Weinberg.egg-info
+            Hardy-Weinberg/tests/logs
+            Hardy-Weinberg/README.md
+            Hardy-Weinberg/LICENSE
