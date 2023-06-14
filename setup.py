@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="hardyweinbergcalculator",
-    version = "0.2.7",
+    version = "0.2.8",
     author="Dellius Alexander",
     author_email="info@hyfisolutions.com",
     maintainer="info@hyfisolutions.com",
