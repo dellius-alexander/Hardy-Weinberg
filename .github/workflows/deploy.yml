@@ -41,8 +41,8 @@ jobs:
       - name: Lint with black
         run: |
           # Code formatting with black, check every python file in the src directory 
-          black --include "Hardy-Weinberg/hardyweinbergcalculator"
-          black --check "Hardy-Weinberg/hardyweinbergcalculator"
+          black --include "hardyweinbergcalculator"
+          black --check "hardyweinbergcalculator"
           
 
       # Task for running tests
@@ -50,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pytest Hardy-Weinberg/tests
+          pytest tests
 
       # Task for running tests
       - name: Execute build
@@ -58,7 +58,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python Hardy-Weinberg/setup.py sdist bdist_wheel 2>&1
+          python setup.py sdist bdist_wheel 2>&1
 
       # Deploy to PyPI
       - name: Deploy to PyPI
@@ -71,7 +71,7 @@ jobs:
         run: |
           twine upload --skip-existing  --username=$TWINE_USERNAME \
           --password=$TWINE_PASSWORD --repository-url=$TWINE_REPOSITORY_URL \
-          "Hardy-Weinberg/dist/*"
+          dist/*
 
       # Task for uploading test results
       - name: Upload build artifact
@@ -82,8 +82,8 @@ jobs:
         with:
           name: Build-Results
           path: |
-            Hardy-Weinberg/dist
-            Hardy-Weinberg/Hardy-Weinberg.egg-info
-            Hardy-Weinberg/tests/logs
-            Hardy-Weinberg/README.md
-            Hardy-Weinberg/LICENSE
+            dist
+            hardyweinbergcalculator.egg-info
+            tests/logs
+            README.md
+            LICENSE
