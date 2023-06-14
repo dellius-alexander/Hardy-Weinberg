@@ -7,7 +7,6 @@
 name: Build test and deploy to package repository
 env:
   TZ: 'America/New_York'
-  TWINE_REPOSITORY_URL: ${{ secrets.TWINE_REPOSITORY_URL }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
   TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
