@@ -1,1 +1,1 @@
-from hardyweinbergcalculator import *
+from src import *
