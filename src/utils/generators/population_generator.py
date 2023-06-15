@@ -40,10 +40,10 @@ async def async_chunked_population_generator(samples: int = 1):
     tasks = []
     # first we find the least common multiple of the number of samples
     lcm = least_common_divisor(samples)
-    # then we divide the number of samples by the lcm to get the chunk size
-    chunk_size = samples // lcm if samples > lcm else samples
-    # then we divide the number of samples by the chunk size to get the number of chunks
-    samples_per_chunk = samples // chunk_size
+    # get the chunk size based on the least common multiple and the
+    # number of digits in the number of samples as the exponent
+    # chunk_size = quantity of samples requested // (lcm ** length of digits in samples)
+    chunk_size = samples // (lcm ** len(str(samples * lcm)))
     # then we create a container to hold the samples
     samples_container = []
     # print the info
@@ -51,12 +51,11 @@ async def async_chunked_population_generator(samples: int = 1):
         f"\nSamples: {samples}"
         f"\nLeast Common Multiple: {lcm}"
         f"\nChunk Size: {chunk_size}"
-        f"\nSamples per Chunk: {samples_per_chunk}"
     )
 
     # lastly we iterate over the chunk size and append the chunked samples to the container
     while len(samples_container) < samples:
-        task = asyncio.create_task(async_population_generator(samples_per_chunk))
+        task = asyncio.create_task(async_population_generator(chunk_size))
         tasks.append(task)
         res = await asyncio.gather(*tasks)
         samples_container.extend(res[0])

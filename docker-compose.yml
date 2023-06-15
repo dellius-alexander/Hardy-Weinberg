@@ -11,5 +11,5 @@ services:
     ports:
       - "${PORT}:${PORT}"
     volumes:
-      - ./hardyweinbergcalculator:/app
+      - ./src:/app
     command: uvicorn app.main:app --host

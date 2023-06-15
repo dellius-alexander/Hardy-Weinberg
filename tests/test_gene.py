@@ -1,4 +1,4 @@
-from hardyweinbergcalculator import Allele, Gene
+from src import Allele, Gene
 
 
 def test_gene():

@@ -8,7 +8,8 @@ with open("README.md", "r") as fh:
 
 setup(
     name="hardyweinbergcalculator",
-    version = "0.2.8",
+    # Do Not Change This Line
+    version = "0.3.3",
     author="Dellius Alexander",
     author_email="info@hyfisolutions.com",
     maintainer="info@hyfisolutions.com",
@@ -17,7 +18,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     url="https://github.com/dellius-alexander/Hardy-Weinberg.git",
-    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
+    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*", "dist", "build", "logs"]),
     license="MIT",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -33,9 +34,15 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
+    package_data={
+        "src": ["data/*.*"]
+    },
+    package_dir={
+        "hardy_weinberg": "src"
+    },
     entry_points={
         "console_scripts": [
-            "hwc = hardyweinbergcalculator.__main__:main"
+            "hwc = src.__main__:main"
         ]
     },
     python_requires=">=3.7",

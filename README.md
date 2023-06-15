@@ -12,7 +12,7 @@ population in Hardy-Weinberg equilibrium.
 ## Installation
 
 ```bash
-pip install hardyweinbergcalculator
+pip install src
 ```
 
 ## Usage

@@ -227,7 +227,7 @@ class HardyWeinbergStats:
             "homozygous_recessive_population": self.homozygous_recessive_population,
             "heterozygous_population": self.heterozygous_population,
             "total_population": self.total_population,
-            "genes": [a.__dict__() for a in self.genes]
+            "genes": len([a.__dict__() for a in self.genes])
             if isinstance(self.genes, list)
             else [],
         }

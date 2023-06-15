@@ -1,7 +1,7 @@
 import logging
 from time import perf_counter
-from hardyweinbergcalculator.utils.generators.population_generator import generate_population, least_common_divisor
-from hardyweinbergcalculator.config import get_logger
+from src.utils.generators.population_generator import generate_population, least_common_divisor
+from src.config import get_logger
 
 log = get_logger(__name__, level=logging.INFO)
 

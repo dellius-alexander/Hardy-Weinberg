@@ -29,7 +29,10 @@ def parse_args():
         exit_on_error=True,
     )
     parser.add_argument(
-        "--version", action="version", version="HardyWeinberg Calculator 0.1"
+        "--version",
+        action="version",
+        # Do Not Change This Line
+        version = "0.3.3"
     )
     parser.add_argument(
         "--verbose", action="store_true", default=False, help="Enable verbose logging."

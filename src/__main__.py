@@ -2,7 +2,7 @@ import logging
 import sys
 import traceback
 from typing import Union, List
-from . import Gene, HardyWeinberg, generate_population, parse_args, get_logger
+from . import Gene, HardyWeinberg, generate_population, parse_args, get_logger, perf_counter
 
 log = get_logger(__name__)
 
@@ -53,7 +53,7 @@ def main():
         elif args.verbose:
             log.setLevel(logging.INFO)
         # _________________________________________________________________ #
-        if args.samples is not None:
+        if isinstance(args.samples, int):
             args.genes = generate_population(int(args.samples))
         else:
             args.genes = []
@@ -72,7 +72,11 @@ def main():
 # --------------------------------------------------------------------------- #
 if __name__ == "__main__":
     try:
-        main()
+        start = perf_counter()
+        res = main()
+        end = perf_counter()
+        log.info(f"\n{res}")
+        log.info(f"Time Elapsed: {end - start:0.5f} seconds")
     except Exception as e:
         log.error(e)
         log.error(traceback.format_exc())

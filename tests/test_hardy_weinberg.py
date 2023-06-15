@@ -2,8 +2,8 @@ import json
 import random
 import subprocess
 import sys
-from hardyweinbergcalculator import generate_population, get_logger, HardyWeinbergStats, HardyWeinberg
-from hardyweinbergcalculator.__main__ import main, app
+from src import generate_population, get_logger, HardyWeinbergStats, HardyWeinberg
+from src.__main__ import main, app
 
 log = get_logger(__name__)
 

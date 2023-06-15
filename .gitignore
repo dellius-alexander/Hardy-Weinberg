@@ -16,3 +16,4 @@ Hardy_Weinberg_Equilibrium.egg-info
 /.backup/
 /hardyweinbergcalculator.egg-info/
 /tests/logs/
+/src/statistical

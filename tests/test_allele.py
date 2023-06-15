@@ -1,4 +1,4 @@
-from hardyweinbergcalculator.genetics import Allele
+from src.genetics import Allele
 
 
 def test_allele():
