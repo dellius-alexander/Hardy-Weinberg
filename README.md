@@ -84,21 +84,22 @@ The results returned from the Hardyweinberg test will ultimately look like this,
 
 ```json
 {
-    "2*pq": 0.375,
-    "@genes": [],
-    "chi_square_test": 1.1111111111111112,
-    "expected_heterozygous_population": 3.75,
-    "expected_homozygous_dominant_population": 5.625,
-    "expected_homozygous_recessive_population": 0.625,
-    "heterozygous_population": 5,
-    "homozygous_dominant_population": 5,
-    "homozygous_recessive_population": 0,
-    "p": 0.75,
+    "2*pq": 0.4986501057404244,
+    "chi_square_test": 20.439848879167698,
+    "expected_heterozygous_population": 1132.434390136504,
+    "expected_homozygous_dominant_population": 510.28280493174816,
+    "expected_homozygous_recessive_population": 628.2828049317482,
+    "genes": 0,
+    "heterozygous_population": 1025.0,
+    "homozygous_dominant_population": 564.0,
+    "homozygous_recessive_population": 682.0,
+    "p": 0.47402025539409953,
     "p + q": 1.0,
-    "p**2": 0.5625,
+    "p**2": 0.22469520252388733,
     "p**2 + 2*pq + q**2": 1.0,
-    "q": 0.25,
-    "q**2": 0.0625,
-    "total_population": 10
+    "q": 0.5259797446059005,
+    "q**2": 0.2766546917356883,
+    "total_population": 2271.0
 }
+
 ```
