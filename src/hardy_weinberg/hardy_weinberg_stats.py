@@ -1,4 +1,6 @@
 import json
+import traceback
+
 from ..genetics import Gene
 from ..config import get_logger
 from sympy import symbols
@@ -78,14 +80,14 @@ class HardyWeinbergStats:
                     + self.heterozygous_population
                 ) / (2 * self.total_population)
                 self._calculate_expected_values()
-                self.chi_square_test = self._run_chi_square_tests()
+                self.chi_square_test, self.data_structure = self._run_chi_square_tests()
                 self.genes = genes
             elif total_population is not None and p is not None or q is not None:
                 self.total_population = round(total_population, 1)
                 self.p = p if p is not None else 1.0 - q  # p = 1 - q
                 self.q = q if q is not None else 1.0 - p  # q = 1 - p
                 self._calculate_expected_values()
-                self.chi_square_test = self._run_chi_square_tests()
+                self.chi_square_test, self.data_structure = self._run_chi_square_tests()
                 self.genes = genes
             elif genes is not None and isinstance(genes, list) and len(genes) > 0:
                 self.genes = genes
@@ -108,7 +110,7 @@ class HardyWeinbergStats:
                     + self.heterozygous_population
                 ) / (2 * self.total_population)
                 self._calculate_expected_values()
-                self.chi_square_test = self._run_chi_square_tests()
+                self.chi_square_test, self.data_structure = self._run_chi_square_tests()
             else:
                 raise ValueError(
                     "\n\nInvalid parameters passed to HardyWeinbergStats constructor. Please \n"
@@ -171,7 +173,7 @@ class HardyWeinbergStats:
         :return: chi-square test results
         """
         try:
-            mtx = np.array(
+            matrix = np.array(
                 object=[
                     [
                         [
@@ -182,33 +184,50 @@ class HardyWeinbergStats:
                     ],
                     [[self.p_expected, self.q_expected, self.two_pq_expected]],
                     [[self.p_squared, self.q_squared, self.two_pq]],
+                    [[0, 0, 0]]
                 ],
                 dtype=np.float64,
             )
-            log.info(f"\nStats Matrices: \n{mtx}")
+
+            log.info(f"\nStats Matrices: \n{matrix}")
+            log.info(f"""\n
+                {matrix[0:1][0][0]},\n
+                {matrix[1:2][0][0]},\n
+                {matrix[2:3][0][0]},\n
+                {matrix[3:4][0][0]}
+                """
+            )
             i = 0
             chi_square_test = 0.0
-            while i < len(mtx):
+            chi_square_values = []
+            while i < len(matrix[0:1][0][0]):
                 # select the observed, expected, and frequency values based
                 # on the shape of the matrix (3, 1, 3) or data structure
                 observed, expected, frequencies = (
-                    mtx[0:1][0][0][i],
-                    mtx[1:2][0][0][i],
-                    mtx[2:3][0][0][i],
+                    matrix[0:1][0][0][i],
+                    matrix[1:2][0][0][i],
+                    matrix[2:3][0][0][i],
                 )
                 log.info(
                     f"\nObserved: {observed} \nExpected: {expected} \nFrequency: {frequencies}"
                 )
-                chi_square_test += ((observed - expected) ** 2) / expected
+                chi_square_value = ((observed - expected) ** 2) / expected
+                # add the chi-square value to the matrix
+                chi_square_values.append(chi_square_value)
+                log.info(f"\nMatrix: \n{matrix}")
+                # add the chi-square value to the chi-square test
+                chi_square_test += chi_square_value
+                matrix[3:4][0][0][i] = chi_square_value
                 i += 1
             log.info(
-                f"\nMatrix shape: {mtx.shape}"
+                f"\nMatrix shape: {matrix.shape}"
                 f"\nChi-Square Test Results: {chi_square_test}"
-                f"\nSize of matrix: {mtx.size}"
+                f"\nSize of matrix: {matrix.size}"
             )
-            return chi_square_test
+            return chi_square_test, matrix.tolist()
         except Exception as e:
             log.error(f"Error: {e}")
+            log.error(traceback.format_exc())
 
     def __dict__(self):
         return {
@@ -230,6 +249,7 @@ class HardyWeinbergStats:
             "genes": len([a.__dict__() for a in self.genes])
             if isinstance(self.genes, list)
             else [],
+            "data_structure": self.data_structure,
         }
 
     def to_json(self):

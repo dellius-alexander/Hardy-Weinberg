@@ -18,10 +18,10 @@ def parse_args():
         \nHardy-Weinberg Equilibrium Calculator.
         \nCalculates the expected genotype frequencies based on the allele frequencies of a population 
         in Hardy-Weinberg equilibrium. 
-      
+
         \nSee: https://en.wikipedia.org/wiki/Hardy%E2%80%93Weinberg_principle""",
         usage="hwc [-h] [--version] [--verbose] [--debug] [--samples SAMPLES] [--p P] [--q Q] [--tpop TPOP] ["
-        "--ppop PPOP] [--qpop QPOP] [--pq2pop PQ2POP] [--genes GENES [GENES ...]] [--json JSON [JSON ...]]",
+              "--ppop PPOP] [--qpop QPOP] [--pq2pop PQ2POP] [--genes GENES [GENES ...]] [--json JSON [JSON ...]]",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         epilog="""Example: python3 -m hwc --ppop 10 --qpop 10 --pq2pop 200 --verbose""",
         add_help=True,
@@ -32,7 +32,7 @@ def parse_args():
         "--version",
         action="version",
         # Do Not Change This Line
-        version = "0.3.3"
+        version="0.3.4"
     )
     parser.add_argument(
         "--verbose", action="store_true", default=False, help="Enable verbose logging."
@@ -109,6 +109,5 @@ def parse_genes_from_cli(genes: List = None):
             f"\nParsed Gene List size: {len(gene_list)}",
         )
     return gene_list
-
 
 # --------------------------------------------------------------------------- #
