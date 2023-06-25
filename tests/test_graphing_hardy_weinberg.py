@@ -36,63 +36,63 @@ def test_plotting_hws():
     log.info(f"Result: {res.stats.data_structure}")
     log.info(f"Chi-Squared: {res.stats.chi_square_test}")
     data = res.stats.data_structure
-    log.info(f"Population Data: \n{data[0:][0][0][0]}")
-    log.info(f"Expected Data: \n{data[1:][0][0][0]}")
-    log.info(f"Allele Frequency Data: \n{data[2:][0][0][0]}")
-    # 3d scatter plot stats and figures
-    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-    ax.scatter3D(
-        xs=data[0:][0][0][0],
-        ys=data[2:][0][0][0] * 100,
-        zs=data[1:][0][0][0],
-        c="g",
-        marker="v",
-        zdir="z",
-        depthshade=True,
-        label="Hd"
-    )
-    ax.scatter3D(
-        xs=data[0:][0][0][1],
-        ys=data[2:][0][0][1] * 100,
-        zs=data[1:][0][0][1],
-        c="r",
-        marker="^",
-        zdir="z",
-        depthshade=True,
-        label="Hr"
-    )
-    ax.scatter3D(
-        xs=data[0:][0][0][2],
-        ys=data[2:][0][0][2] * 100,
-        zs=data[1:][0][0][2],
-        c="b",
-        marker="o",
-        zdir="z",
-        depthshade=True,
-        label="He"
-    )
-
-    ax.plot3D(
-        xs=data[0:][0][0],
-        ys=[a * 100 for a in data[2:][0][0]],
-        zs=data[1:][0][0],
-    )
-
-    ax.legend(["Homo-Dominant", "Homo-Recessive", "Heterozygous"], loc='upper left')
-
-    plt.xlabel("Population (x)")
-    plt.ylabel("Allele Frequency (y)")
-    ax.set_zlabel("Expected (z)")
-    # Rotate the axes and update
-    angle = 45
-    # Normalize the angle to the range [-180, 180] for display
-    angle_norm = (angle + 180) % 360 - 180
-    elev = angle_norm
-    azim = 0
-    roll = 0
-    # Update the axis view and title
-    ax.view_init(elev, azim, roll)
-    plt.title('Elevation: %d°, Azimuth: %d°, Roll: %d°' % (elev, azim, roll))
+    log.info(f"Population Data: \n{data[0:][0][0]}")
+    log.info(f"Expected Data: \n{data[1:][0][0]}")
+    log.info(f"Allele Frequency Data: \n{data[2:][0][0]}")
+    # # 3d scatter plot stats and figures
+    # fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+    # ax.scatter3D(
+    #     xs=data[0:][0][0][0],
+    #     ys=data[2:][0][0][0] * 100,
+    #     zs=data[1:][0][0][0],
+    #     c="g",
+    #     marker="v",
+    #     zdir="z",
+    #     depthshade=True,
+    #     label="Hd"
+    # )
+    # ax.scatter3D(
+    #     xs=data[0:][0][0][1],
+    #     ys=data[2:][0][0][1] * 100,
+    #     zs=data[1:][0][0][1],
+    #     c="r",
+    #     marker="^",
+    #     zdir="z",
+    #     depthshade=True,
+    #     label="Hr"
+    # )
+    # ax.scatter3D(
+    #     xs=data[0:][0][0][2],
+    #     ys=data[2:][0][0][2] * 100,
+    #     zs=data[1:][0][0][2],
+    #     c="b",
+    #     marker="o",
+    #     zdir="z",
+    #     depthshade=True,
+    #     label="He"
+    # )
+    #
+    # ax.plot3D(
+    #     xs=data[0:][0][0],
+    #     ys=[a * 100 for a in data[2:][0][0]],
+    #     zs=data[1:][0][0],
+    # )
+    #
+    # ax.legend(["Homo-Dominant", "Homo-Recessive", "Heterozygous"], loc='upper left')
+    #
+    # plt.xlabel("Population (x)")
+    # plt.ylabel("Allele Frequency (y)")
+    # ax.set_zlabel("Expected (z)")
+    # # Rotate the axes and update
+    # angle = 45
+    # # Normalize the angle to the range [-180, 180] for display
+    # angle_norm = (angle + 180) % 360 - 180
+    # elev = angle_norm
+    # azim = 0
+    # roll = 0
+    # # Update the axis view and title
+    # ax.view_init(elev, azim, roll)
+    # plt.title('Elevation: %d°, Azimuth: %d°, Roll: %d°' % (elev, azim, roll))
     # plt.draw()
     # plt.pause(0.01)
 
